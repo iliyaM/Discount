@@ -263,36 +263,3 @@ availableIds = computed(() => [...new Set(this.allTrainees().map(t => t.id))]);
 filteredTrainees = computed(() => this.applyFilters());
 ```
 
-## 🐛 Known Limitations
-
-1. **Data Persistence**: Data is not persisted (in-memory only)
-2. **User Limit**: JSONPlaceholder only provides 10 real users (handled with mock data)
-3. **Pagination Total**: Total items set to 100 (can be adjusted based on needs)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 👥 Authors
-
-Your Name - [Your Email/GitHub]
-
-## 🙏 Acknowledgments
-
-- [JSONPlaceholder](https://jsonplaceholder.typicode.com/) for providing the free REST API
-- [Angular Material](https://material.angular.io/) for the UI components
-- Angular team for the amazing framework and Signals API
-
----
-
-**Note**: This is a demonstration project showcasing Angular best practices, Material Design implementation, and modern state management with Signals.
