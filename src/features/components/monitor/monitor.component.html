@@ -1,0 +1,130 @@
+<div class="monitor-container">
+
+  <!-- Filters Section -->
+  <mat-card class="filters-card">
+    <mat-card-header>
+      <mat-card-title>Filters</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="filters-grid">
+        <!-- ID Filter -->
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by ID</mat-label>
+          <mat-select
+            multiple
+            [value]="filters().selectedIds"
+            (selectionChange)="updateFilters({ selectedIds: $event.value })">
+            @for (id of availableIds(); track id) {
+              <mat-option [value]="id">{{ id }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint>Select one or more IDs</mat-hint>
+        </mat-form-field>
+
+        <!-- Name Filter -->
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by Name</mat-label>
+          <input
+            matInput
+            [value]="filters().nameSearch"
+            (input)="updateFilters({ nameSearch: $any($event.target).value })"
+            placeholder="Enter name">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <!-- Status Filter (Checkboxes) -->
+        <div class="status-filters">
+          <label class="filter-label">Filter by Status:</label>
+          <div class="checkbox-group">
+            <mat-checkbox
+              [checked]="filters().showPassed"
+              (change)="updateFilters({ showPassed: $event.checked })"
+              color="primary">
+              Passed
+            </mat-checkbox>
+            <mat-checkbox
+              [checked]="filters().showFailed"
+              (change)="updateFilters({ showFailed: $event.checked })"
+              color="warn">
+              Not Passed
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button mat-raised-button (click)="clearFilters()">
+          <mat-icon>clear</mat-icon>
+          Clear Filters
+        </button>
+        <span class="results-count">
+          Showing {{ filteredTrainees().length }} of {{ allTrainees().length }} trainees
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Results Grid -->
+  <mat-card class="results-card">
+    <mat-card-header>
+      <mat-card-title>Results</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (loading()) {
+        <div class="loading-container">
+          <mat-progress-spinner></mat-progress-spinner>
+          <p>Loading trainees...</p>
+        </div>
+      } @else {
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="filteredTrainees()" class="monitor-table">
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let trainee">{{ trainee.id }}</td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let trainee">{{ trainee.name }}</td>
+            </ng-container>
+
+            <!-- Grade Column -->
+            <ng-container matColumnDef="grade">
+              <th mat-header-cell *matHeaderCellDef>Grade</th>
+              <td mat-cell *matCellDef="let trainee">
+                <span class="grade-badge" [class]="getStatusClass(trainee.grade)">
+                  {{ trainee.grade }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let trainee">
+                <span class="status-badge" [class]="getStatusClass(trainee.grade)">
+                  <mat-icon>{{ trainee.grade >= 65 ? 'check_circle' : 'cancel' }}</mat-icon>
+                  {{ getStatusText(trainee.grade) }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
+                <mat-icon>info</mat-icon>
+                <p>No trainees match the current filters</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

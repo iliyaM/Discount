@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Add New Trainee</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="traineeForm" class="trainee-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter trainee name">
+      @if (traineeForm.get('name')?.invalid && traineeForm.get('name')?.touched) {
+        <mat-error>{{ getErrorMessage('name') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Subject</mat-label>
+      <input matInput formControlName="subject" placeholder="Enter subject">
+      @if (traineeForm.get('subject')?.invalid && traineeForm.get('subject')?.touched) {
+        <mat-error>{{ getErrorMessage('subject') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Grade</mat-label>
+      <input matInput type="number" formControlName="grade" placeholder="Enter grade (0-100)">
+      @if (traineeForm.get('grade')?.invalid && traineeForm.get('grade')?.touched) {
+        <mat-error>{{ getErrorMessage('grade') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Select date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (traineeForm.get('date')?.invalid && traineeForm.get('date')?.touched) {
+        <mat-error>{{ getErrorMessage('date') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="example@email.com">
+      @if (traineeForm.get('email')?.invalid && traineeForm.get('email')?.touched) {
+        <mat-error>{{ getErrorMessage('email') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput type="tel" formControlName="phone" placeholder="Enter phone number">
+      @if (traineeForm.get('phone')?.invalid && traineeForm.get('phone')?.touched) {
+        <mat-error>{{ getErrorMessage('phone') }}</mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="traineeForm.invalid">
+    Add Trainee
+  </button>
+</mat-dialog-actions>

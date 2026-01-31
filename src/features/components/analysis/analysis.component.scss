@@ -1,0 +1,266 @@
+.container {
+  padding: 2em;
+  margin: 0 auto;
+
+  h1 {
+    margin-bottom: 2em;
+    color: black;
+  }
+}
+
+.number-selection {
+  margin-bottom: 3em;
+  padding: 1.5em;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+
+  h2 {
+    margin-bottom: 1em;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .number-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7em;
+    padding: 1em;
+    min-height: 80px;
+  }
+
+  .number-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border: 2px solid #1976d2;
+    border-radius: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1976d2;
+    cursor: grab;
+    position: relative;
+    transition: all 0.2s;
+
+    &:hover:not(.disabled) {
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active:not(.disabled) {
+      cursor: grabbing;
+    }
+
+    &.selected {
+      background-color: #e3f2fd;
+      border-color: #4caf50;
+      color: #4caf50;
+
+      .check-icon {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        color: #4caf50;
+      }
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #ccc;
+      color: #ccc;
+    }
+  }
+
+  .selection-count {
+    margin-top: 1em;
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+  }
+}
+
+.drop-containers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+}
+
+.drop-zone-wrapper {
+  h3 {
+    margin-bottom: 1em;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  &.third-container {
+    grid-column: 1 / -1;
+
+    .toggle-button {
+      margin-bottom: 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+  }
+}
+
+.drop-zone {
+  min-height: 400px;
+  border: 3px dashed #ccc;
+  border-radius: 8px;
+  padding: 1em;
+  background-color: #fafafa;
+  transition: all 0.3s;
+
+  &.has-content {
+    border-color: #1976d2;
+    background-color: white;
+  }
+
+  &.cdk-drop-list-dragging {
+    background-color: #e3f2fd;
+    border-color: #1976d2;
+  }
+}
+
+.empty-drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 350px;
+  color: rgba(0, 0, 0, 0.38);
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1em;
+  }
+
+  p {
+    font-size: 1.1em;
+  }
+}
+
+.trainee-card {
+  position: relative;
+  cursor: move;
+  min-height: 350px;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .remove-button {
+    position: absolute;
+    top: 0;
+    right: 150px;
+    z-index: 1;
+    background-color: crimson;
+    border-radius: 5px;
+    width: 100px;
+
+    mat-icon {
+      color: white;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 1em;
+
+  p {
+    color: black;
+  }
+}
+
+.trainee-content {
+  padding: 1em;
+
+  .trainee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    border-bottom: 2px solid #f5f5f5;
+
+    h4 {
+      margin: 0;
+      color: #1976d2;
+    }
+
+    .trainee-id {
+      font-size: 0.9em;
+      color: rgba(0, 0, 0, 0.6);
+      background-color: #e3f2fd;
+      padding: 0.25em 0.75em;
+      border-radius: 12px;
+    }
+  }
+
+  .trainee-info {
+    margin-bottom: 1.5em;
+
+    p {
+      margin: 0.5em 0;
+      font-size: 0.95em;
+
+      strong {
+        color: black;
+      }
+    }
+  }
+
+  .mock-graph {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2em;
+    background: linear-gradient(to top, #e3f2fd 0%, #fff 100%);
+    border-radius: 8px;
+    min-height: 150px;
+    justify-content: flex-end;
+
+    .bar {
+      width: 60px;
+      background: linear-gradient(to top, #1976d2, #42a5f5);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s ease;
+      min-height: 20px;
+    }
+
+    span {
+      margin-top: 0.5em;
+      font-weight: bold;
+      color: #1976d2;
+      font-size: 1.1em;
+    }
+  }
+}
+
+// CDK Drag styles
+.cdk-drag-preview {
+  box-shadow: 0 5px 15px black;
+  opacity: 0.9;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.5;
+}

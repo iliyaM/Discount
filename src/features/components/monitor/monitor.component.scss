@@ -1,0 +1,165 @@
+.monitor-container {
+  padding: 2em;
+  margin: 0 auto;
+
+  .mat-mdc-card-header {
+    margin-bottom: 1em;
+  }
+
+  h1 {
+    margin-bottom: 2em;
+    color: black;
+  }
+}
+
+.filters-card {
+  margin-bottom: 2em;
+
+  mat-card-header {
+    background-color: #f5f5f5;
+    padding: 1em;
+  }
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5em;
+  margin-bottom: 1em;
+}
+
+.status-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  .filter-label {
+    font-weight: 500;
+    color: black;
+    margin-bottom: 0.5em;
+  }
+
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1em;
+  border-top: 1px solid #e0e0e0;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .results-count {
+    color: black;
+    font-size: 0.95em;
+  }
+}
+
+.results-card {
+  mat-card-header {
+    background-color: #f5f5f5;
+    padding: 1em;
+    margin: -16px -16px 16px -16px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4em;
+  gap: 1em;
+
+  p {
+    color: black;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.monitor-table {
+  width: 100%;
+
+  th {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: black;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.grade-badge {
+  display: inline-block;
+  padding: 0.25em 0.75em;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95em;
+
+  &.passed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.failed {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1em;
+  border-radius: 16px;
+  font-weight: 600;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  &.passed {
+    background-color: #4caf50;
+    color: white;
+  }
+
+  &.failed {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+.no-data {
+  text-align: center;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: black;
+    margin-bottom: 1em;
+  }
+
+  p {
+    color: black;
+    margin: 0;
+  }
+}

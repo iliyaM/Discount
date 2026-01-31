@@ -1,0 +1,103 @@
+<div class="container">
+
+  <div class="number-selection">
+    <h2>Select up to 3</h2>
+    <div
+      cdkDropList
+      id="numberList"
+      [cdkDropListData]="null"
+      class="number-list"
+      [cdkDropListConnectedTo]="getConnectedLists()">
+      @for (num of numbers; track num) {
+        <div
+          class="number-chip"
+          [class.selected]="isNumberSelected(num)"
+          [class.disabled]="isNumberSelected(num) || totalSelected >= 3"
+          cdkDrag
+          [cdkDragData]="num"
+          [cdkDragDisabled]="isNumberSelected(num) || totalSelected >= 3">
+          {{ num }}
+          @if (isNumberSelected(num)) {
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          }
+        </div>
+      }
+    </div>
+    <p class="selection-count">Selected: {{ totalSelected }} / 3</p>
+  </div>
+
+
+  <!-- Drop Containers -->
+  <div class="drop-containers">
+    @for (container of visibleContainers; track $index) {
+      <div class="drop-zone-wrapper">
+        <h3>Graph {{ $index + 1 }}</h3>
+        <div
+          cdkDropList
+          [id]="'container' + $index"
+          [cdkDropListData]="container"
+          (cdkDropListDropped)="drop($event, $index)"
+          [cdkDropListConnectedTo]="getConnectedLists()"
+          class="drop-zone"
+          [class.has-content]="container !== null">
+
+          @if (container) {
+            <mat-card class="trainee-card" cdkDrag [cdkDragData]="container.id">
+              <button
+                mat-icon-button
+                class="remove-button"
+                (click)="removeFromContainer($index)">
+                <mat-icon>close</mat-icon>
+              </button>
+
+              @if (container.loading) {
+                <div class="loading-container">
+                  <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+                  <p>Loading trainee {{ container.id }}...</p>
+                </div>
+              } @else if (container.data) {
+                <div class="trainee-content">
+                  <div class="trainee-header">
+                    <h4>{{ container.data.name }}</h4>
+                    <span class="trainee-id">ID: {{ container.id }}</span>
+                  </div>
+
+                  <div class="trainee-info">
+                    <p><strong>Email:</strong> {{ container.data.email }}</p>
+                    <p><strong>Phone:</strong> {{ container.data.phone }}</p>
+                    <p><strong>Company:</strong> {{ container.data.company.name }}</p>
+                    <p><strong>Grade:</strong> {{ container.data.grade }}</p>
+                    <p><strong>Subject:</strong> {{ container.data.subject }}</p>
+                  </div>
+
+                  <div class="mock-graph">
+                    <div class="bar" [style.height.%]="container.data.grade"></div>
+                    <span>{{ container.data.grade }}%</span>
+                  </div>
+                </div>
+              }
+            </mat-card>
+          } @else {
+            <div class="empty-drop-zone">
+              <mat-icon>add_circle_outline</mat-icon>
+              <p>Drag a number here</p>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Toggle Third Container Button -->
+  <div class="toggle-section">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="toggleThirdContainer()"
+      class="toggle-button">
+      <mat-icon>{{ showThirdContainer() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      {{ showThirdContainer() ? 'Hide' : 'Show' }} Third Graph
+    </button>
+  </div>
+
+</div>

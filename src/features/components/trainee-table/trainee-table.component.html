@@ -1,0 +1,197 @@
+<header>
+  <div class="header-controls">
+    <mat-form-field class="filter-field">
+      <mat-label>Filter</mat-label>
+      <input matInput
+             type="text"
+             [value]="searchFilterService.searchTerm()"
+             (input)="searchFilterService.searchTerm.set($any($event.target).value)"
+      >
+      <mat-hint>
+        Keywords: "ID:5" || > 25 || < 2024-01-01
+      </mat-hint>
+    </mat-form-field>
+
+    <div class="actions">
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="addTrainee()">Add trainee</button>
+        <button mat-raised-button (click)="deleteFromTable()">Delete from table</button>
+        <button mat-raised-button
+                color="warn"
+                (click)="clearSelection()"
+                [disabled]="!selectedTrainee()"
+                class="clear-button">
+          <mat-icon>clear</mat-icon>
+          Clear selection
+        </button>
+      </mat-card-actions>
+    </div>
+
+  </div>
+</header>
+
+
+<div class="content-wrapper">
+  <!-- Table Section -->
+  <div class="table-section">
+    @if (loader) {
+      <ng-container *ngTemplateOutlet="loaderTemplate"></ng-container>
+    } @else {
+      @if (filteredData() && filteredData().length) {
+        <div class="table-wrapper">
+          <table mat-table [dataSource]="filteredData()" class="mat-elevation-z0">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID</th>
+              <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> Name</th>
+              <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date</th>
+              <td mat-cell *matCellDef="let element"> {{ element.date | date:'shortDate' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="grade">
+              <th mat-header-cell *matHeaderCellDef> Grade</th>
+              <td mat-cell *matCellDef="let element">
+            <span>
+              {{ element.grade }}
+            </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef> Subject</th>
+              <td mat-cell *matCellDef="let element"> {{ element.subject }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: displayedColumns;"
+                (click)="tableRowClicked(row)"
+                [class.selected-row]="selectedTrainee()?.id === row.id"
+            ></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                No data found
+              </td>
+            </tr>
+          </table>
+          <mat-paginator
+            [length]="totalItems"
+            [pageSize]="pageSize"
+            [pageIndex]="pageIndex"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+          >
+          </mat-paginator>
+        </div>
+      } @else {
+        <p class="no-data">No data to display</p>
+      }
+    }
+  </div>
+
+  <!-- Details Panel -->
+  <div class="details-panel">
+    @if (detailsLoading) {
+      <ng-container *ngTemplateOutlet="loaderTemplate"></ng-container>
+    } @else {
+      @if (selectedTrainee()) {
+        <mat-card class="details-card">
+          <mat-card-header>
+            <mat-card-title>Trainee Details</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="detail-section">
+              <h3>Personal Information</h3>
+              <div class="detail-row">
+                <span class="label">ID:</span>
+                <span class="value">{{ selectedTrainee()!.id }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Name:</span>
+                <span class="value">{{ selectedTrainee()!.name }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Username:</span>
+                <span class="value">{{ selectedTrainee()!.username }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Email:</span>
+                <span class="value">
+                <a [href]="'mailto:' + selectedTrainee()!.email">{{ selectedTrainee()!.email }}</a>
+              </span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Phone:</span>
+                <span class="value">
+                <a [href]="'tel:' + selectedTrainee()!.phone">{{ selectedTrainee()!.phone }}</a>
+              </span>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="detail-section">
+              <h3>Academic Information</h3>
+              <div class="detail-row">
+                <span class="label">Subject:</span>
+                <span class="value">{{ selectedTrainee()!.subject }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Grade:</span>
+                <span>
+                {{ selectedTrainee()!.grade }}
+              </span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Date:</span>
+                <span class="value">{{ selectedTrainee()!.date | date:'longDate' }}</span>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="detail-section">
+              <h3>Address</h3>
+              <div class="detail-row">
+                <span class="label">Street:</span>
+                <span class="value">{{ selectedTrainee()!.address.street }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">City:</span>
+                <span class="value">{{ selectedTrainee()!.address.city }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Zipcode:</span>
+                <span class="value">{{ selectedTrainee()!.address.zipcode }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      } @else {
+        <div class="empty-state">
+          <mat-icon>info</mat-icon>
+          <p>Select a trainee to view details</p>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<ng-template #loaderTemplate>
+  <div class="loader-container">
+    <mat-progress-spinner
+      mode="indeterminate"
+      color="primary">
+    </mat-progress-spinner>
+    <p>Loading...</p>
+  </div>
+</ng-template>

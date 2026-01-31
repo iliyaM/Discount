@@ -1,0 +1,20 @@
+section.dashboard {
+  box-sizing: border-box;
+  padding: 50px;
+
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    width: 350px;
+    margin: 0 auto;
+
+    button {
+      font-size: 1.5em;
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
+  }
+}
